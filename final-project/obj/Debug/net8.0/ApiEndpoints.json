@@ -1,0 +1,12 @@
+[
+  {
+    "ContainingType": "final_project.Controllers.HealthController",
+    "Method": "TestDatabaseConnection",
+    "RelativePath": "api/Health/db",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
