@@ -1,8 +1,9 @@
 appsettings.Development.json
 
 # Build folders
-bin/
-obj/
+**/bin/
+**/obj/
+.vs/
 
 # Visual Studio
 .vs/
