@@ -1,6 +1,8 @@
 appsettings.Development.json
 
 # Build folders
+bin/
+obj/
 **/bin/
 **/obj/
 
