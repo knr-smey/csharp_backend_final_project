@@ -2595,11 +2595,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\2-5 C# + ASP.NET\\final-project\\final-project\\final-project.csproj",
+      "projectUniqueName": "D:\\csharp_backend_final_project\\final-project\\final-project.csproj",
       "projectName": "final-project",
-      "projectPath": "D:\\2-5 C# + ASP.NET\\final-project\\final-project\\final-project.csproj",
+      "projectPath": "D:\\csharp_backend_final_project\\final-project\\final-project.csproj",
       "packagesPath": "C:\\Users\\Elonmas\\.nuget\\packages\\",
-      "outputPath": "D:\\2-5 C# + ASP.NET\\final-project\\final-project\\obj\\",
+      "outputPath": "D:\\csharp_backend_final_project\\final-project\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

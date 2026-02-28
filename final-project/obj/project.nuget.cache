@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3Cd6QIE3xaE=",
+  "dgSpecHash": "/ZnkXJ06BTs=",
   "success": true,
-  "projectFilePath": "D:\\2-5 C# + ASP.NET\\final-project\\final-project\\final-project.csproj",
+  "projectFilePath": "D:\\csharp_backend_final_project\\final-project\\final-project.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Elonmas\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Elonmas\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
