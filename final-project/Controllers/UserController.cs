@@ -7,5 +7,10 @@ namespace final_project.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("Hello, User!");
+        }
     }
 }
