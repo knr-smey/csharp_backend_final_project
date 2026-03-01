@@ -12,7 +12,7 @@ using final_project.Data;
 namespace final_project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260228083256_InitialCreate")]
+    [Migration("20260301100502_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -34,7 +34,6 @@ namespace final_project.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedAt")
@@ -46,7 +45,7 @@ namespace final_project.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -65,7 +64,6 @@ namespace final_project.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CourseName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedAt")
@@ -75,20 +73,18 @@ namespace final_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Des")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<float>("Price")
                         .HasColumnType("float");
 
                     b.Property<string>("Thumbnail")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -113,11 +109,9 @@ namespace final_project.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("MimeType")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -148,13 +142,12 @@ namespace final_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SubCategoryName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -178,23 +171,18 @@ namespace final_project.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -220,11 +208,9 @@ namespace final_project.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("MimeType")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -244,9 +230,7 @@ namespace final_project.Migrations
                 {
                     b.HasOne("final_project.Models.User", "User")
                         .WithMany("Categories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -255,9 +239,7 @@ namespace final_project.Migrations
                 {
                     b.HasOne("final_project.Models.User", "User")
                         .WithMany("Courses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -283,9 +265,7 @@ namespace final_project.Migrations
 
                     b.HasOne("final_project.Models.User", "User")
                         .WithMany("SubCategories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Category");
 
