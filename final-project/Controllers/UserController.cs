@@ -10,7 +10,7 @@ namespace final_project.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Hello, User!");
+            return Ok("Hello");
         }
     }
 }
