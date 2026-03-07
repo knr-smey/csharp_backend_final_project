@@ -12,8 +12,8 @@ using final_project.Data;
 namespace final_project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260307085611_CreatedByUserRelation")]
-    partial class CreatedByUserRelation
+    [Migration("20260307093102_initial-migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
