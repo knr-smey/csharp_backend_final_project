@@ -1,6 +1,6 @@
 using final_project.Data;
+using final_project.DTOs.Auth;
 using final_project.Models;
-using final_project.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -15,68 +15,79 @@ namespace final_project.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _db;
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _config;
 
-        public AuthController(AppDbContext context, IConfiguration configuration)
+        public AuthController(AppDbContext db, IConfiguration config)
         {
-            _db = context;
-            _configuration = configuration;
+            _db = db;
+            _config = config;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto req)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (string.IsNullOrWhiteSpace(req.Email) || string.IsNullOrWhiteSpace(req.Password))
+                return BadRequest(new { message = "Email and password are required." });
 
-            if (await _db.Users.AnyAsync(u => u.Email == request.Email))
-                return BadRequest("Email already exists");
+            var user = await _db.Users.AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == req.Email);
 
-            var user = new User
+            if (user == null || user.Password != req.Password)
+                return Unauthorized(new { message = "Invalid email or password." });
+
+            var (token, expSeconds) = CreateJwtToken(user);
+
+            return Ok(new LoginResponseDto
             {
-                Name = request.Name,
-                Email = request.Email,
-                Gender = request.Gender,
-                Role = "User",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            };
-
-            _db.Users.Add(user);
-            await _db.SaveChangesAsync();
-
-            var token = GenerateJwtToken(user);
-
-            return Ok(new
-            {
-                message = "User registered successfully",
-                token = token
+                AccessToken = token,
+                ExpiresIn = expSeconds,
+                User = new
+                {
+                    user.Id,
+                    user.Name,
+                    user.Email,
+                    user.Gender,
+                    user.Role
+                }
             });
         }
 
-        private string GenerateJwtToken(User user)
+        private (string Token, int ExpiresInSeconds) CreateJwtToken(User user)
         {
-            var claims = new[]
+            var key = _config["Jwt:Key"];
+            var issuer = _config["Jwt:Issuer"];
+            var audience = _config["Jwt:Audience"];
+
+            if (string.IsNullOrWhiteSpace(key))
+                throw new Exception("JWT Key missing. Add Jwt settings in appsettings.Development.json");
+
+            int expMinutes = 60;
+            int.TryParse(_config["Jwt:ExpMinutes"], out expMinutes);
+            if (expMinutes <= 0) expMinutes = 60;
+
+            var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim("name", user.Name),
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
-            var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var creds = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var credentials = new SigningCredentials(
-                key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.UtcNow.AddMinutes(expMinutes);
 
-            var token = new JwtSecurityToken(
+            var jwt = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(2),
-                signingCredentials: credentials
+                expires: expires,
+                signingCredentials: creds
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var token = new JwtSecurityTokenHandler().WriteToken(jwt);
+            return (token, expMinutes * 60);
         }
     }
 }
