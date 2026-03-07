@@ -1,15 +1,16 @@
 appsettings.Development.json
 
-# Build folders
+# Build
 bin/
 obj/
-**/bin/
-**/obj/
 
 # Visual Studio
 .vs/
 *.user
 *.suo
+
+# Rider / JetBrains
+.idea/
 
 # Logs
 *.log
