@@ -4,6 +4,12 @@ namespace final_project.DTOs.Course
 {
     public class CourseCreateDto
     {
+        [Range(1, int.MaxValue)]
+        public int CategoryId { get; set; }
+
+        [Range(1, int.MaxValue)]
+        public int SubCategoryId { get; set; }
+
         [Required]
         public string CourseName { get; set; } = string.Empty;
 

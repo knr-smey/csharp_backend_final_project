@@ -7,6 +7,10 @@ namespace final_project.Models
     {
         public int Id { get; set; }
 
+        public int CategoryId { get; set; }
+
+        public int SubCategoryId { get; set; }
+
         public string CourseName { get; set; }
 
         public string Des { get; set; }

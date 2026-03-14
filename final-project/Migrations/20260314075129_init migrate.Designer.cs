@@ -12,8 +12,8 @@ using final_project.Data;
 namespace final_project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260307093102_initial-migration")]
-    partial class initialmigration
+    [Migration("20260314075129_init migrate")]
+    partial class initmigrate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,9 @@ namespace final_project.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CourseName")
                         .HasColumnType("longtext");
 
@@ -74,6 +77,9 @@ namespace final_project.Migrations
 
                     b.Property<float>("Price")
                         .HasColumnType("float");
+
+                    b.Property<int>("SubCategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Thumbnail")
                         .HasColumnType("longtext");

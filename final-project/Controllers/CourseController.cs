@@ -26,6 +26,8 @@ namespace final_project.Controllers
                 .Select(course => new CourseResponseDto
                 {
                     Id = course.Id,
+                    CategoryId = course.CategoryId,
+                    SubCategoryId = course.SubCategoryId,
                     CourseName = course.CourseName,
                     Des = course.Des,
                     Price = course.Price,
@@ -64,8 +66,18 @@ namespace final_project.Controllers
                 return BadRequest(ModelState);
             }
 
+            var isSubCategoryMatched = await _context.SubCategories
+                .AnyAsync(s => s.Id == courseDto.SubCategoryId && s.CategoryId == courseDto.CategoryId);
+
+            if (!isSubCategoryMatched)
+            {
+                return BadRequest("SubCategory does not belong to the selected Category.");
+            }
+
             var course = new Course
             {
+                CategoryId = courseDto.CategoryId,
+                SubCategoryId = courseDto.SubCategoryId,
                 CourseName = courseDto.CourseName,
                 Des = courseDto.Des,
                 Price = courseDto.Price,
@@ -97,6 +109,16 @@ namespace final_project.Controllers
                 return NotFound();
             }
 
+            var isSubCategoryMatched = await _context.SubCategories
+                .AnyAsync(s => s.Id == courseDto.SubCategoryId && s.CategoryId == courseDto.CategoryId);
+
+            if (!isSubCategoryMatched)
+            {
+                return BadRequest("SubCategory does not belong to the selected Category.");
+            }
+
+            course.CategoryId = courseDto.CategoryId;
+            course.SubCategoryId = courseDto.SubCategoryId;
             course.CourseName = courseDto.CourseName;
             course.Des = courseDto.Des;
             course.Price = courseDto.Price;
@@ -130,6 +152,8 @@ namespace final_project.Controllers
             return new CourseResponseDto
             {
                 Id = course.Id,
+                CategoryId = course.CategoryId,
+                SubCategoryId = course.SubCategoryId,
                 CourseName = course.CourseName,
                 Des = course.Des,
                 Price = course.Price,

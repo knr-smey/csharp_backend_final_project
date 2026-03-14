@@ -57,6 +57,9 @@ namespace final_project.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CourseName")
                         .HasColumnType("longtext");
 
@@ -71,6 +74,9 @@ namespace final_project.Migrations
 
                     b.Property<float>("Price")
                         .HasColumnType("float");
+
+                    b.Property<int>("SubCategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Thumbnail")
                         .HasColumnType("longtext");
